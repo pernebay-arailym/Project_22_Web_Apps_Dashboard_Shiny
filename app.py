@@ -16,10 +16,12 @@ def dat():
 
 with ui.layout_columns():
 
-    @render_plotly
-    def plot1():
-        return px.histogram(px.data.tips(), y="tip")
+   # @render_plotly
+   # def plot1():
+   #     df = dat()
+   #     df= groupby('product').count()
+   #     return px.bar(df, x='product', y='')
 
-    @render_plotly
-    def plot2():
-        return px.histogram(px.data.tips(), y="total_bill") 
+    @render.data_frame
+    def data():
+        return dat()
