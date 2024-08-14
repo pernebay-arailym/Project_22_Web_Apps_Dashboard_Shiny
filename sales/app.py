@@ -14,7 +14,10 @@ ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
 @reactive.calc  #when you do not have many time to code, each time you can use this
 def dat():
     infile = Path(__file__).parent / "data/sales.csv"
-    return pd.read_csv(infile) #it returns the cashed value
+    df = pd.read_csv(infile)
+    df['order_date'] = pd.to_datetime(df['order_date']) #we modify the df, adding new column Month, if you wanna modify the df use copy not original, otherwise it will cause to other places
+    df['month'] = df['order_date'].dt.month_name()
+    return df #it returns the cashed value
 
 @render_plotly
 def plot1():
@@ -26,8 +29,6 @@ def plot1():
 @render_plotly
 def sales_over_time():
     df = dat()
-    df['order_date'] = pd.to_datetime(df['order_date']) #we modify the df, adding new column Month, if you wanna modify the df use copy not original, otherwise it will cause to other places
-    df['month'] = df['order_date'].dt.month_name()
     print(df)
 
 with ui.card():
