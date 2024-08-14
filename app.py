@@ -9,6 +9,8 @@ from shinywidgets import render_plotly
 
 ui.page_opts(title="Sales Dashboard - Video 1 of 5", fillable=True)
 
+ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
+
 @reactive.calc
 def dat():
     infile = Path(__file__).parent / "data/sales.csv"
