@@ -1,0 +1,12 @@
+{
+    "https://api.shinyapps.io": {
+        "server_url": "https://api.shinyapps.io",
+        "filename": "/Users/pernebayarailym/Documents/Portfolio Projects AP/Python Projects/Project_22_Web_Apps_Dashboard_Shiny/sales",
+        "app_url": "https://araishiny.shinyapps.io/sales-video-11/",
+        "app_id": 12452346,
+        "app_guid": null,
+        "title": "sales-video-1",
+        "app_mode": "python-shiny",
+        "app_store_version": 1
+    }
+}
