@@ -16,14 +16,19 @@ def dat():
     infile = Path(__file__).parent / "data/sales.csv"
     return pd.read_csv(infile)
 
-with ui.layout_columns():
+@render_plotly
+def plot1():
+    df = dat()
+    top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+    return px.bar(top_sales, x='product', y='quantity_ordered')
 
-    @render_plotly
-    def plot1():
-        df = dat()
-        top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-        return px.bar(top_sales, x='product', y='quantity_ordered')
 
+@render_plotly
+def sales_over_time():
+    df = dat()
+    print(df)
+
+    
     #@render.data_frame
     #def data():
     #    return dat()
