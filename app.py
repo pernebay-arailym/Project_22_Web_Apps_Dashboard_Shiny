@@ -3,7 +3,7 @@ import plotly.express as px
 from shiny.express import input, ui
 from shinywidgets import render_plotly
 
-ui.page_opts(title="Filling layout", fillable=True)
+ui.page_opts(title="Sales Dashboard - Video 1 of 5", fillable=True)
 with ui.layout_columns():
 
     @render_plotly
