@@ -16,12 +16,12 @@ def dat():
 
 with ui.layout_columns():
 
-   # @render_plotly
-   # def plot1():
-   #     df = dat()
-   #     df= groupby('product').count()
-   #     return px.bar(df, x='product', y='')
+    @render_plotly
+    def plot1():
+        df = dat()
+        top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(5).reset_index()
+        return px.bar(top_sales, x='product', y='quantity_ordered')
 
-    @render.data_frame
-    def data():
-        return dat()
+    #@render.data_frame
+    #def data():
+    #    return dat()
