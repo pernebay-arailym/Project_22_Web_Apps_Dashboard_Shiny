@@ -28,7 +28,14 @@ def sales_over_time():
     df = dat()
     print(df)
 
-    
+with ui.card():
+    ui.card_header("Sample Sales Data")
+    @render.data_frame
+    def sample_sales_data():
+        return dat().head(100)
+
+
+
     #@render.data_frame
     #def data():
     #    return dat()
