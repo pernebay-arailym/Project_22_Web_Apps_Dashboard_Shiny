@@ -20,11 +20,11 @@ def dat():
     df['month'] = df['order_date'].dt.month_name()
     return df #it returns the cashed value
 
-#@render_plotly
-#def plot1():
-#    df = dat()
-#    top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-#    return px.bar(top_sales, x='product', y='quantity_ordered')
+@render_plotly
+def plot1():
+    df = dat()
+    top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+    return px.bar(top_sales, x='product', y='quantity_ordered')
 
 ui.input_selectize(  
     "city",  
@@ -45,14 +45,14 @@ def sales_over_time():
     fig = px.bar(sales_by_city, x='month', y='quantity_ordered', title=f"Sales over Time -- {input.city()}", category_orders={'month': month_orders})
     return fig
 
-#with ui.card():
-#    ui.card_header("Sample Sales Data")
-#    @render.data_frame
-#    def sample_sales_data():
-#        return dat().head(100)
+with ui.card():
+    ui.card_header("Sample Sales Data")
+    @render.data_frame
+    def sample_sales_data():
+        return dat().head(100)
 
 
 
-    #@render.data_frame
-    #def data():
-    #    return dat()
+    @render.data_frame
+    def data():
+        return dat()
