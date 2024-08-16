@@ -29,7 +29,8 @@ def plot1():
 @render_plotly
 def sales_over_time():
     df = dat()
-    print(df)
+    sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
+    print(sales)
 
 with ui.card():
     ui.card_header("Sample Sales Data")
