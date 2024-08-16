@@ -30,7 +30,9 @@ def dat():
 def plot1():
     df = dat()
     top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-    return px.bar(top_sales, x='product', y='quantity_ordered')
+    fig = px.bar(top_sales, x='product', y='quantity_ordered')
+    fig.update_traces(marker_color=color())
+    return fig
 
 ui.input_selectize(  
     "city",  
