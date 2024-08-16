@@ -14,7 +14,9 @@ ui.input_checkbox("bar_color", "Make Bars Red?", False)
 
 ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
 
-
+@reactive.calc
+def color():
+    return "red" if input.bar_color() else "blue"
 
 @reactive.calc  #when you do not have many time to code, each time you can use this
 def dat():
@@ -47,6 +49,7 @@ def sales_over_time():
     sales_by_city = sales[sales['city'] == input.city()]   #filter to cities
     month_orders = calendar.month_name[1:]
     fig = px.bar(sales_by_city, x='month', y='quantity_ordered', title=f"Sales over Time -- {input.city()}", category_orders={'month': month_orders})
+    fig.update_traces(marker_color=color())
     return fig
 
 with ui.card():
