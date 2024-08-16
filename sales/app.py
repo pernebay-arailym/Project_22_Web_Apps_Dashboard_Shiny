@@ -30,7 +30,9 @@ def plot1():
 def sales_over_time():
     df = dat()
     sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
-    print(sales)
+    sales_by_city = sales[sales['city'] == "Boston (MA)"]   #filter to cities
+    fig = px.bar(sales, x='month', y='quantity_ordered')
+    return fig
 
 with ui.card():
     ui.card_header("Sample Sales Data")
