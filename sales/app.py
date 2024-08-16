@@ -1,6 +1,7 @@
 # How to Build, Deploy & Share a Python app!
 from pathlib import Path
 import pandas as pd
+import calendar
 
 import plotly.express as px
 from shiny import reactive
@@ -31,7 +32,8 @@ def sales_over_time():
     df = dat()
     sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
     sales_by_city = sales[sales['city'] == "Boston (MA)"]   #filter to cities
-    fig = px.bar(sales, x='month', y='quantity_ordered')
+    month_orders = calendar.month_name[1:]
+    fig = px.bar(sales, x='month', y='quantity_ordered', category_orders={'month': month_orders})
     return fig
 
 with ui.card():
