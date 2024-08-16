@@ -8,9 +8,13 @@ from shiny import reactive
 from shiny.express import render, input, ui
 from shinywidgets import render_plotly
 
-ui.page_opts(title="Sales Dashboard - Video 1 of 5", fillable=True)
+ui.page_opts(title="Sales Dashboard - Video 1 of 5", fillable=False)
+
+ui.input_checkbox("bar_color", "Make Bars Red?", False)  
 
 ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
+
+
 
 @reactive.calc  #when you do not have many time to code, each time you can use this
 def dat():
