@@ -20,16 +20,24 @@ def dat():
     df['month'] = df['order_date'].dt.month_name()
     return df #it returns the cashed value
 
-@render_plotly
-def plot1():
-    df = dat()
-    top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-    return px.bar(top_sales, x='product', y='quantity_ordered')
+#@render_plotly
+#def plot1():
+#    df = dat()
+#    top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+#    return px.bar(top_sales, x='product', y='quantity_ordered')
+
+ui.input_selectize(  
+    "city",  
+    "Select a City:",  
+    ['Dallas (TX)', 'Boston (MA)', 'Los Angeles (CA)', 'San Francisco (CA)', 'Seattle (WA)', 'Atlanta (GA)', 'New York City (NY)', 'Portland (OR)', 'Austin (TX)', 'Portland (ME)'],  
+    multiple=True,  
+)  
 
 
 @render_plotly
 def sales_over_time():
     df = dat()
+    print(list(df.city.unique()))
     sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
     sales_by_city = sales[sales['city'] == "Boston (MA)"]   #filter to cities
     month_orders = calendar.month_name[1:]
