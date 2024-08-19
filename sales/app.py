@@ -31,17 +31,14 @@ with ui.card():
         with ui.sidebar(bg="#f8f8f8"):  
             ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
 
-        "Card content"  
-
-with ui.card():
+        @render_plotly
+        def plot1():
+            df = dat()
+            top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+            fig = px.bar(top_sales, x='product', y='quantity_ordered')
+            #fig.update_traces(marker_color=color())
+            return fig 
     
-    @render_plotly
-    def plot1():
-        df = dat()
-        top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-        fig = px.bar(top_sales, x='product', y='quantity_ordered')
-        #fig.update_traces(marker_color=color())
-        return fig
     
 with ui.card():
 
