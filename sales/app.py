@@ -49,12 +49,11 @@ with ui.card():
         return fig  
 
 with ui.layout_column_wrap(width=1/2):
-    with ui.navset_card_underline(id="tab"):  
+    with ui.navset_card_underline(id="tab", footer= ui.input_numeric("n", "Number of Items", 5, min=0, max=20)):  
         with ui.nav_panel("Top Sellers"):
-            ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
 
             @render_plotly
-            def plot1():
+            def plot_top_sellers():
                 df = dat()
                 top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
                 fig = px.bar(top_sales, x='product', y='quantity_ordered')
@@ -62,7 +61,15 @@ with ui.layout_column_wrap(width=1/2):
                 return fig
 
         with ui.nav_panel("Top Sellers Value ($)"):
-            "Panel B content"
+
+            @render_plotly
+            def plot_top_sellers_value():
+                df = dat().copy()
+                df['value'] = df['quantity_ordered']*df['price_each']
+                top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+                fig = px.bar(top_sales, x='product', y='quantity_ordered')
+                #fig.update_traces(marker_color=color())
+                return fig
 
         with ui.nav_panel("Lowest Sellers"):
             "Panel C content"
