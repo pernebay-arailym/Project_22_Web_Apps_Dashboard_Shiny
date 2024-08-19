@@ -22,6 +22,7 @@ def dat():
     df = pd.read_csv(infile)
     df['order_date'] = pd.to_datetime(df['order_date']) #we modify the df, adding new column Month, if you wanna modify the df use copy not original, otherwise it will cause to other places
     df['month'] = df['order_date'].dt.month_name()
+    df['value'] = df['quantity_ordered']*df['price_each']
     return df #it returns the cashed value
 
 with ui.card():  
@@ -64,10 +65,9 @@ with ui.layout_column_wrap(width=1/2):
 
             @render_plotly
             def plot_top_sellers_value():
-                df = dat().copy()
-                df['value'] = df['quantity_ordered']*df['price_each']
-                top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-                fig = px.bar(top_sales, x='product', y='quantity_ordered')
+                df = dat()
+                top_sales = df.groupby('product')['value'].sum().nlargest(input.n()).reset_index()
+                fig = px.bar(top_sales, x='product', y='value')
                 #fig.update_traces(marker_color=color())
                 return fig
 
