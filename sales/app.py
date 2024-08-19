@@ -35,26 +35,30 @@ with ui.card():
         fig = px.bar(top_sales, x='product', y='quantity_ordered')
         fig.update_traces(marker_color=color())
         return fig
-
-ui.input_selectize(  
-    "city",  
-    "Select a City:",  
-    ['Dallas (TX)', 'Boston (MA)', 'Los Angeles (CA)', 'San Francisco (CA)', 'Seattle (WA)', 'Atlanta (GA)', 'New York City (NY)', 'Portland (OR)', 'Austin (TX)', 'Portland (ME)'],  
-    multiple=False,
-    selected='Boston (MA)'  
-)  
+    
+with ui.card():
 
 
-@render_plotly
-def sales_over_time():
-    df = dat()
-    print(list(df.city.unique()))
-    sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
-    sales_by_city = sales[sales['city'] == input.city()]   #filter to cities
-    month_orders = calendar.month_name[1:]
-    fig = px.bar(sales_by_city, x='month', y='quantity_ordered', title=f"Sales over Time -- {input.city()}", category_orders={'month': month_orders})
-    fig.update_traces(marker_color=color())
-    return fig
+
+    ui.input_selectize(  
+        "city",  
+        "Select a City:",  
+        ['Dallas (TX)', 'Boston (MA)', 'Los Angeles (CA)', 'San Francisco (CA)', 'Seattle (WA)', 'Atlanta (GA)', 'New York City (NY)', 'Portland (OR)', 'Austin (TX)', 'Portland (ME)'],  
+        multiple=False,
+        selected='Boston (MA)'  
+    )  
+
+
+    @render_plotly
+    def sales_over_time():
+        df = dat()
+        print(list(df.city.unique()))
+        sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
+        sales_by_city = sales[sales['city'] == input.city()]   #filter to cities
+        month_orders = calendar.month_name[1:]
+        fig = px.bar(sales_by_city, x='month', y='quantity_ordered', title=f"Sales over Time -- {input.city()}", category_orders={'month': month_orders})
+        fig.update_traces(marker_color=color())
+        return fig
 
 with ui.card():
     ui.card_header("Sample Sales Data")
