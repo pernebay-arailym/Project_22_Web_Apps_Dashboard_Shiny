@@ -49,7 +49,7 @@ with ui.card():
         return fig  
 
 with ui.navset_card_underline(id="tab"):  
-    with ui.nav_panel("A"):
+    with ui.nav_panel("Top Sellers"):
         ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
 
         @render_plotly
@@ -60,15 +60,14 @@ with ui.navset_card_underline(id="tab"):
             #fig.update_traces(marker_color=color())
             return fig
     
-    with ui.nav_panel("B"):
+    with ui.nav_panel("Top Sellers Value ($)"):
         "Panel B content"
 
-    with ui.nav_panel("C"):
+    with ui.nav_panel("Lowest Sellers"):
         "Panel C content"
 
-    with ui.nav_menu("Other links"):
-        with ui.nav_panel("D"):
-            "Page D content"
+    with ui.nav_panel("Lowest Sellers Value ($)"):
+        "Panel D content"
 
 with ui.card():
     ui.card_header("Sample Sales Data")
