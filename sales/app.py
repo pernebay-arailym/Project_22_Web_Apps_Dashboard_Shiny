@@ -73,6 +73,8 @@ with ui.layout_column_wrap(width=1/2):
     with ui.card():
         "Placeholder"
 
+with ui.card():
+    "Sales by Location Map"
 
 with ui.card():
     ui.card_header("Sample Sales Data")
