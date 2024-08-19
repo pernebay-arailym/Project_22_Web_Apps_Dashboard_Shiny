@@ -37,7 +37,7 @@ with ui.card():
         selected='Boston (MA)'  
     )    
 
-    @render_plotly
+    @render_plotly 
     def sales_over_time():
         df = dat()
         print(list(df.city.unique()))
@@ -48,17 +48,27 @@ with ui.card():
         #fig.update_traces(marker_color=color())
         return fig  
 
-with ui.card():
-    ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
-    
-    @render_plotly
-    def plot1():
-        df = dat()
-        top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-        fig = px.bar(top_sales, x='product', y='quantity_ordered')
-        #fig.update_traces(marker_color=color())
-        return fig
+with ui.navset_card_underline(id="tab"):  
+    with ui.nav_panel("A"):
+        ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
 
+        @render_plotly
+        def plot1():
+            df = dat()
+            top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+            fig = px.bar(top_sales, x='product', y='quantity_ordered')
+            #fig.update_traces(marker_color=color())
+            return fig
+    
+    with ui.nav_panel("B"):
+        "Panel B content"
+
+    with ui.nav_panel("C"):
+        "Panel C content"
+
+    with ui.nav_menu("Other links"):
+        with ui.nav_panel("D"):
+            "Page D content"
 
 with ui.card():
     ui.card_header("Sample Sales Data")
