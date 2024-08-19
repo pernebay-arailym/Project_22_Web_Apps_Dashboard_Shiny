@@ -8,13 +8,13 @@ from shiny import reactive
 from shiny.express import render, input, ui
 from shinywidgets import render_plotly
 
-ui.page_opts(title="Sales Dashboard - Video 1 of 5", fillable=False)
+ui.page_opts(title="Sales Dashboard - Video 3 of 5", fillable=False)
 
-ui.input_checkbox("bar_color", "Make Bars Red?", False)  
+#ui.input_checkbox("bar_color", "Make Bars Red?", False)  
 
-@reactive.calc
-def color():
-    return "red" if input.bar_color() else "blue"
+#@reactive.calc
+#def color():
+#    return "red" if input.bar_color() else "blue"
 
 @reactive.calc  #when you do not have many time to code, each time you can use this
 def dat():
@@ -33,7 +33,7 @@ with ui.card():
         df = dat()
         top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
         fig = px.bar(top_sales, x='product', y='quantity_ordered')
-        fig.update_traces(marker_color=color())
+        #fig.update_traces(marker_color=color())
         return fig
     
 with ui.card():
@@ -57,7 +57,7 @@ with ui.card():
         sales_by_city = sales[sales['city'] == input.city()]   #filter to cities
         month_orders = calendar.month_name[1:]
         fig = px.bar(sales_by_city, x='month', y='quantity_ordered', title=f"Sales over Time -- {input.city()}", category_orders={'month': month_orders})
-        fig.update_traces(marker_color=color())
+        #fig.update_traces(marker_color=color())
         return fig
 
 with ui.card():
