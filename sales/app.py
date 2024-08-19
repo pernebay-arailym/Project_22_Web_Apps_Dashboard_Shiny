@@ -29,29 +29,13 @@ with ui.card():
 
     with ui.layout_sidebar():  
         with ui.sidebar(bg="#f8f8f8"):  
-            ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
-
-        @render_plotly
-        def plot1():
-            df = dat()
-            top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-            fig = px.bar(top_sales, x='product', y='quantity_ordered')
-            #fig.update_traces(marker_color=color())
-            return fig 
-    
-    
-with ui.card():
-
-
-
-    ui.input_selectize(  
+            ui.input_selectize(  
         "city",  
         "Select a City:",  
         ['Dallas (TX)', 'Boston (MA)', 'Los Angeles (CA)', 'San Francisco (CA)', 'Seattle (WA)', 'Atlanta (GA)', 'New York City (NY)', 'Portland (OR)', 'Austin (TX)', 'Portland (ME)'],  
         multiple=False,
         selected='Boston (MA)'  
-    )  
-
+    )    
 
     @render_plotly
     def sales_over_time():
@@ -62,10 +46,22 @@ with ui.card():
         month_orders = calendar.month_name[1:]
         fig = px.bar(sales_by_city, x='month', y='quantity_ordered', title=f"Sales over Time -- {input.city()}", category_orders={'month': month_orders})
         #fig.update_traces(marker_color=color())
+        return fig  
+
+with ui.card():
+    
+    @render_plotly
+    def plot1():
+        df = dat()
+        top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+        fig = px.bar(top_sales, x='product', y='quantity_ordered')
+        #fig.update_traces(marker_color=color())
         return fig
+
 
 with ui.card():
     ui.card_header("Sample Sales Data")
+    
     @render.data_frame
     def sample_sales_data():
         return dat().head(100)
