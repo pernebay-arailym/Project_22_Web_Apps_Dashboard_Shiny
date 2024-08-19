@@ -12,8 +12,6 @@ ui.page_opts(title="Sales Dashboard - Video 1 of 5", fillable=False)
 
 ui.input_checkbox("bar_color", "Make Bars Red?", False)  
 
-ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
-
 @reactive.calc
 def color():
     return "red" if input.bar_color() else "blue"
@@ -26,13 +24,17 @@ def dat():
     df['month'] = df['order_date'].dt.month_name()
     return df #it returns the cashed value
 
-@render_plotly
-def plot1():
-    df = dat()
-    top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-    fig = px.bar(top_sales, x='product', y='quantity_ordered')
-    fig.update_traces(marker_color=color())
-    return fig
+with ui.card():
+
+    ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
+    
+    @render_plotly
+    def plot1():
+        df = dat()
+        top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+        fig = px.bar(top_sales, x='product', y='quantity_ordered')
+        fig.update_traces(marker_color=color())
+        return fig
 
 ui.input_selectize(  
     "city",  
