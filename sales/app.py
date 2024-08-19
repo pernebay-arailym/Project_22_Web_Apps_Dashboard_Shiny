@@ -71,10 +71,12 @@ with ui.layout_column_wrap(width=1/2):
             "Panel D content"
 
     with ui.card():
-        "Placeholder"
+        ui.card_header("Sales by Time of Day Heatmap")
+        "Heatmap"
 
 with ui.card():
-    "Sales by Location Map"
+    ui.card_header("Sales by Location Map")
+    "Contecnt Here"
 
 with ui.card():
     ui.card_header("Sample Sales Data")
