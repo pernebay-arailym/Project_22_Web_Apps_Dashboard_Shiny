@@ -25,13 +25,13 @@ def dat():
     return df #it returns the cashed value
 
 with ui.card():  
-    ui.card_header("Card with sidebar")
+    ui.card_header("Sales by City 2023")
 
     with ui.layout_sidebar():  
-        with ui.sidebar(bg="#f8f8f8"):  
+        with ui.sidebar(bg="#f8f8f8", open='open'):  
             ui.input_selectize(  
         "city",  
-        "Select a City:",  
+        "Selec t a City:",  
         ['Dallas (TX)', 'Boston (MA)', 'Los Angeles (CA)', 'San Francisco (CA)', 'Seattle (WA)', 'Atlanta (GA)', 'New York City (NY)', 'Portland (OR)', 'Austin (TX)', 'Portland (ME)'],  
         multiple=False,
         selected='Boston (MA)'  
@@ -49,6 +49,7 @@ with ui.card():
         return fig  
 
 with ui.card():
+    ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
     
     @render_plotly
     def plot1():
