@@ -24,9 +24,16 @@ def dat():
     df['month'] = df['order_date'].dt.month_name()
     return df #it returns the cashed value
 
-with ui.card():
+with ui.card():  
+    ui.card_header("Card with sidebar")
 
-    ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
+    with ui.layout_sidebar():  
+        with ui.sidebar(bg="#f8f8f8"):  
+            ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
+
+        "Card content"  
+
+with ui.card():
     
     @render_plotly
     def plot1():
