@@ -48,26 +48,31 @@ with ui.card():
         #fig.update_traces(marker_color=color())
         return fig  
 
-with ui.navset_card_underline(id="tab"):  
-    with ui.nav_panel("Top Sellers"):
-        ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
+with ui.layout_column_wrap(width=1/2):
+    with ui.navset_card_underline(id="tab"):  
+        with ui.nav_panel("Top Sellers"):
+            ui.input_numeric("n", "Number of Items", 5, min=0, max=20)
 
-        @render_plotly
-        def plot1():
-            df = dat()
-            top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-            fig = px.bar(top_sales, x='product', y='quantity_ordered')
-            #fig.update_traces(marker_color=color())
-            return fig
-    
-    with ui.nav_panel("Top Sellers Value ($)"):
-        "Panel B content"
+            @render_plotly
+            def plot1():
+                df = dat()
+                top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
+                fig = px.bar(top_sales, x='product', y='quantity_ordered')
+                #fig.update_traces(marker_color=color())
+                return fig
 
-    with ui.nav_panel("Lowest Sellers"):
-        "Panel C content"
+        with ui.nav_panel("Top Sellers Value ($)"):
+            "Panel B content"
 
-    with ui.nav_panel("Lowest Sellers Value ($)"):
-        "Panel D content"
+        with ui.nav_panel("Lowest Sellers"):
+            "Panel C content"
+
+        with ui.nav_panel("Lowest Sellers Value ($)"):
+            "Panel D content"
+
+    with ui.card():
+        "Placeholder"
+
 
 with ui.card():
     ui.card_header("Sample Sales Data")
