@@ -81,7 +81,13 @@ with ui.layout_column_wrap(width=1/2):
                 return fig
 
         with ui.nav_panel("Lowest Sellers Value ($)"):
-            "Panel D content"
+            @render_plotly
+            def plot_lowest_sellers_value():
+                df = dat()
+                top_sales = df.groupby('product')['value'].sum().nsmallest(input.n()).reset_index()
+                fig = px.bar(top_sales, x='product', y='value')
+                #fig.update_traces(marker_color=color())
+                return fig
 
     with ui.card():
         ui.card_header("Sales by Time of Day Heatmap")
