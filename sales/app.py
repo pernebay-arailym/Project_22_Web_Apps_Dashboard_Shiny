@@ -100,11 +100,19 @@ with ui.layout_column_wrap(width=1/2):
         def plot_sales_by_time():
             df = dat()
             sales_by_hour = df['hour'].value_counts().reindex(np.arange(0, 24), fill_value=0)
-            #print(sales_by_hour)
-            #plt.bar(x=sales_by_hour['hour'], height=sales_by_hour['count'])
-            #plt.xticks(np.arange(0, 24))
+            
             heatmap_data = sales_by_hour.values.reshape(24,1)
-            sns.heatmap(heatmap_data)
+            sns.heatmap(heatmap_data,
+                        annot=True,
+                        fmt="d",
+                        cmap="coolwarm",
+                        cbar=False,
+                        xticklabels=[],
+                        yticklabels=[f"{i}:00" for i in range(24)])
+            
+            plt.title("Number of Orders by Hour of Day")
+            plt.xlabel("Hour of Day")
+            plt.ylabel("Order Count")
 
 with ui.card():
     ui.card_header("Sales by Location Map")
