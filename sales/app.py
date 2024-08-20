@@ -97,6 +97,8 @@ with ui.layout_column_wrap(width=1/2):
         @render.plot
         def plot_sales_by_time():
             df = dat()
+            sales_by_hour = df['hour'].value_counts().reset_index()
+            print(sales_by_hour)
             plt.bar([1,2,3],[1,2,3])
 
 with ui.card():
