@@ -3,6 +3,8 @@ from pathlib import Path
 import pandas as pd
 import calendar
 
+import matplotlib.pyplot as plt
+
 import plotly.express as px
 from shiny import reactive
 from shiny.express import render, input, ui
@@ -31,13 +33,13 @@ with ui.card():
     with ui.layout_sidebar():  
         with ui.sidebar(bg="#f8f8f8", open='open'):  
             ui.input_selectize(  
-        "city",  
-        "Selec t a City:",  
-        ['Dallas (TX)', 'Boston (MA)', 'Los Angeles (CA)', 'San Francisco (CA)', 'Seattle (WA)', 'Atlanta (GA)', 'New York City (NY)', 'Portland (OR)', 'Austin (TX)', 'Portland (ME)'],  
+                "city",  
+                "Selec t a City:",  
+                ['Dallas (TX)', 'Boston (MA)', 'Los Angeles (CA)', 'San Francisco (CA)', 'Seattle (WA)', 'Atlanta (GA)', 'New York City (NY)', 'Portland (OR)', 'Austin (TX)', 'Portland (ME)'],  
         multiple=False,
         selected='Boston (MA)'  
-    )    
-
+        )    
+            
     @render_plotly 
     def sales_over_time():
         df = dat()
@@ -91,7 +93,9 @@ with ui.layout_column_wrap(width=1/2):
 
     with ui.card():
         ui.card_header("Sales by Time of Day Heatmap")
-        "Heatmap"
+        @render.plot
+        def plot_sales_by_time():
+            plt.bar([1,2,3],[1,2,3])
 
 with ui.card():
     ui.card_header("Sales by Location Map")
@@ -103,9 +107,3 @@ with ui.card():
     @render.data_frame
     def sample_sales_data():
         return dat().head(100)
-
-
-
-    @render.data_frame
-    def data():
-        return dat()
