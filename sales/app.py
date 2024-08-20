@@ -1,6 +1,7 @@
 # How to Build, Deploy & Share a Python app!
 from pathlib import Path
 import pandas as pd
+import numpy as np 
 import calendar
 
 import matplotlib.pyplot as plt
@@ -99,7 +100,8 @@ with ui.layout_column_wrap(width=1/2):
             df = dat()
             sales_by_hour = df['hour'].value_counts().reset_index()
             print(sales_by_hour)
-            plt.bar([1,2,3],[1,2,3])
+            plt.bar(x=sales_by_hour['hour'], height=sales_by_hour['count'])
+            plt.xticks(np.arange(0, 24))
 
 with ui.card():
     ui.card_header("Sales by Location Map")
