@@ -24,6 +24,7 @@ def dat():
     df = pd.read_csv(infile)
     df['order_date'] = pd.to_datetime(df['order_date']) #we modify the df, adding new column Month, if you wanna modify the df use copy not original, otherwise it will cause to other places
     df['month'] = df['order_date'].dt.month_name()
+    df['hour'] = df['order_date'].dt.hour
     df['value'] = df['quantity_ordered']*df['price_each']
     return df #it returns the cashed value
 
@@ -95,6 +96,7 @@ with ui.layout_column_wrap(width=1/2):
         ui.card_header("Sales by Time of Day Heatmap")
         @render.plot
         def plot_sales_by_time():
+            df = dat()
             plt.bar([1,2,3],[1,2,3])
 
 with ui.card():
