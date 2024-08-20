@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np 
 import calendar
+import seaborn as sns 
 
 import matplotlib.pyplot as plt
 
@@ -98,10 +99,12 @@ with ui.layout_column_wrap(width=1/2):
         @render.plot
         def plot_sales_by_time():
             df = dat()
-            sales_by_hour = df['hour'].value_counts().reset_index()
-            print(sales_by_hour)
-            plt.bar(x=sales_by_hour['hour'], height=sales_by_hour['count'])
-            plt.xticks(np.arange(0, 24))
+            sales_by_hour = df['hour'].value_counts().reindex(np.arange(0, 24), fill_value=0)
+            #print(sales_by_hour)
+            #plt.bar(x=sales_by_hour['hour'], height=sales_by_hour['count'])
+            #plt.xticks(np.arange(0, 24))
+            heatmap_data = sales_by_hour.values.reshape(24,1)
+            sns.heatmap(heatmap_data)
 
 with ui.card():
     ui.card_header("Sales by Location Map")
