@@ -19,14 +19,31 @@ from shinywidgets import render_plotly, render_altair, render_widget
 
 ui.tags.style(
     """
-        .custom-sidebar {
-            background-color: blue !important;
-            font-size: 50px;
-        }
-    """
-)
+    .header-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        height: 60px; /* Added missing semicolon */
+    }
 
-ui.page_opts(title="Sales Dashboard - Video 3 of 5", fillable=False)
+    .header-container img {
+        width: 40px; /* Adjusted width for better visibility */
+        margin-right: 1px; /* Space between the image and the title */
+    }
+
+    .title-container h2 {
+        color: white;
+        margin: 0;
+        font-size: 38px; /* Adjust the size if needed */
+    }
+
+    body {
+        background-color: slategray;
+    }
+        """
+    )
+
+ui.page_opts(window_title="Sales Dashboard - Video 3 of 5", fillable=False)
 
 #ui.input_checkbox("bar_color", "Make Bars Red?", False)  
 
