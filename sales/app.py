@@ -19,8 +19,8 @@ from shinywidgets import render_plotly, render_altair, render_widget
 
 ui.tags.style(
     """
-        #city-label {
-            background-color: blue;
+        .custom-sidebar {
+            background-color: blue !important;
             font-size: 50px;
         }
     """
@@ -44,10 +44,16 @@ def dat():
     df['value'] = df['quantity_ordered']*df['price_each']
     return df #it returns the cashed value
 
+@render.image  
+def image():
+    here = Path(__file__).parent
+    img = {"src": here / "/Users/pernebayarailym/Documents/Portfolio Projects AP/Python Projects/Project_22_Web_Apps_Dashboard_Shiny/sales/shiny-logo.png", "width": "100px"}  
+    return img
+
 with ui.card():  
     ui.card_header("Sales by City 2023")
 
-    with ui.layout_sidebar(class_="custom-sidebar"):  
+    with ui.layout_sidebar():  
         with ui.sidebar(bg="#f8f8f8", open='open'):  
             ui.input_selectize(  
                 "city",  
