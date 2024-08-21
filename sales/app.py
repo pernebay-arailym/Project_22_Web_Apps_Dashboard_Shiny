@@ -131,7 +131,7 @@ with ui.layout_column_wrap(width=1/2):
 
 with ui.card():
     ui.card_header("Sales by Location Map")
-    @render.ui
+    @render.ui  #has render html
     def plot_us_heatmap():
         df = dat()
 
@@ -147,4 +147,4 @@ with ui.card():
     
     @render.data_frame
     def sample_sales_data():
-        return dat().head(100)
+        return render.DataGrid(dat().head(100), filters=True)
