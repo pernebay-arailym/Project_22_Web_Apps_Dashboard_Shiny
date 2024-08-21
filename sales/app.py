@@ -17,6 +17,13 @@ from shiny import reactive
 from shiny.express import render, input, ui
 from shinywidgets import render_plotly, render_altair, render_widget
 
+ui.tags.style(
+    """
+        #city-label {
+            background-color: blue;}
+    """
+)
+
 ui.page_opts(title="Sales Dashboard - Video 3 of 5", fillable=False)
 
 #ui.input_checkbox("bar_color", "Make Bars Red?", False)  
@@ -147,4 +154,4 @@ with ui.card():
     
     @render.data_frame
     def sample_sales_data():
-        return render.DataGrid(dat().head(100), filters=True)
+        return render.DataTable(dat().head(100), selection_mode="row", filters=True)
