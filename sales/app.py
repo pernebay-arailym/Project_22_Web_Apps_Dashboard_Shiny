@@ -2,15 +2,17 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np 
-import calendar
 import seaborn as sns 
+import calendar
+
+import altair as alt
 
 import matplotlib.pyplot as plt
 
 import plotly.express as px
 from shiny import reactive
 from shiny.express import render, input, ui
-from shinywidgets import render_plotly
+from shinywidgets import render_plotly, render_altair, render_widget
 
 ui.page_opts(title="Sales Dashboard - Video 3 of 5", fillable=False)
 
@@ -48,11 +50,21 @@ with ui.card():
         df = dat()
         print(list(df.city.unique()))
         sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
-        sales_by_city = sales[sales['city'] == input.city()]   #filter to cities
+        sales_by_city = sales[sales['city'] == input.city()]  # filter to city
+    
+        # Define month names for ordering
         month_orders = calendar.month_name[1:]
-        fig = px.bar(sales_by_city, x='month', y='quantity_ordered', title=f"Sales over Time -- {input.city()}", category_orders={'month': month_orders})
-        #fig.update_traces(marker_color=color())
-        return fig  
+    
+        # Create the Altair chart
+        chart = alt.Chart(sales_by_city).mark_bar().encode(
+            x=alt.X('month:O', title='Month', sort=month_orders),
+            y=alt.Y('quantity_ordered:Q', title='Quantity Ordered'),
+            color=alt.value('#1f77b4')  # Replace with your color
+        ).properties(
+            title=f"Sales over Time -- {input.city()}"
+        )
+    
+        return chart
 
 with ui.layout_column_wrap(width=1/2):
     with ui.navset_card_underline(id="tab", footer= ui.input_numeric("n", "Number of Items", 5, min=0, max=20)):  
