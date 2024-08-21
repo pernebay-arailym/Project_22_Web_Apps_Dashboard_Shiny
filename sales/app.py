@@ -47,7 +47,7 @@ def dat():
 with ui.card():  
     ui.card_header("Sales by City 2023")
 
-    with ui.layout_sidebar():  
+    with ui.layout_sidebar(class_="custom-sidebar"):  
         with ui.sidebar(bg="#f8f8f8", open='open'):  
             ui.input_selectize(  
                 "city",  
