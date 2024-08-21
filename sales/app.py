@@ -131,12 +131,16 @@ with ui.layout_column_wrap(width=1/2):
 
 with ui.card():
     ui.card_header("Sales by Location Map")
-    @render_widget
+    @render.ui
     def plot_us_heatmap():
         df = dat()
 
         heatmap_data = df[['lat', 'long', 'quantity_ordered']].values
-        print(heatmap_data)
+       
+        map = folium.Map(location=[32.96, -96.83], zoom_start=4)
+        HeatMap(heatmap_data).add_to(map)
+        
+        return map
 
 with ui.card():
     ui.card_header("Sample Sales Data")
