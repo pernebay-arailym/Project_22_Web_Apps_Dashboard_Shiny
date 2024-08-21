@@ -40,8 +40,31 @@ ui.tags.style(
     body {
         background-color: slategray;
     }
+
+    .modebar{
+        display: none;
+    }
         """
+)
+
+# Define a function to apply common styling
+def apply_plotly_style(fig):
+    fig.update_layout(
+        xaxis_title='',  # Remove x-axis label
+        yaxis_title='Quantity Ordered',  # Update y-axis label
+        plot_bgcolor='white',  # Remove background color
+        paper_bgcolor='white',  # Remove paper background color
+        coloraxis_showscale=False,
+        xaxis=dict(
+            showgrid=False,  # Remove gridlines from x-axis
+            zeroline=False    # Remove zero line
+        ),
+        yaxis=dict(
+            showgrid=False,  # Remove gridlines from y-axis
+            zeroline=False   # Remove zero line
+        ),
     )
+    return fig
 
 ui.page_opts(window_title="Sales Dashboard - Video 3 of 5", fillable=False)
 
@@ -87,26 +110,41 @@ with ui.card():
         selected='Boston (MA)'  
         )    
             
-    @render_altair 
-    def sales_over_time():
-        df = dat()
-        print(list(df.city.unique()))
-        sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
-        sales_by_city = sales[sales['city'] == input.city()]  # filter to city
+        @render_altair 
+        def sales_over_time():
+            df = dat()
 
-        # Define month names for ordering
-        month_orders = calendar.month_name[1:]
+            sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
+            sales_by_city = sales[sales['city'] == input.city()]  # filter to city
 
-        # Create the Altair chart
-        chart = alt.Chart(sales_by_city).mark_bar().encode(
-            x=alt.X('month:O', title='Month', sort=month_orders),
-            y=alt.Y('quantity_ordered:Q', title='Quantity Ordered'),
-            color=alt.value('#1f77b4')  # Replace with your color
-        ).properties(
-            title=f"Sales over Time -- {input.city()}"
-        )
+            # Define month names for ordering
+            month_orders = calendar.month_name[1:]
 
-        return chart
+            # Define the darkest color for text (darker than slategray)
+            dark_slategray = '#2F4F4F'
+
+            # Create the Altair chart
+            chart = alt.Chart(sales_by_city).mark_bar().encode(
+                x=alt.X('month:O', title='Month', sort=month_orders),
+                y=alt.Y('quantity_ordered:Q', title='Quantity Ordered'),
+                color=alt.value('#1f77b4')  # Replace with your color
+            ).properties(
+                title=f"Sales over Time -- {input.city()}"
+            ).configure_axis(
+                grid=False,  # Remove gridlines
+                tickSize=0,  # Remove tick marks
+                labelFontSize=12,
+                labelColor=dark_slategray,  # Set font color darker than slategray
+                titleFontSize=14,
+                titleColor=dark_slategray  # Set title font color to match labels
+            ).configure_title(
+                fontSize=16,
+                font='Arial',
+                anchor='middle',
+                color=dark_slategray  # Set chart title font color
+            )
+
+            return chart
 
 with ui.layout_column_wrap(width=1/2):
     with ui.navset_card_underline(id="tab", footer= ui.input_numeric("n", "Number of Items", 5, min=0, max=20)):  
@@ -116,8 +154,15 @@ with ui.layout_column_wrap(width=1/2):
             def plot_top_sellers():
                 df = dat()
                 top_sales = df.groupby('product')['quantity_ordered'].sum().nlargest(input.n()).reset_index()
-                fig = px.bar(top_sales, x='product', y='quantity_ordered')
-                #fig.update_traces(marker_color=color())
+
+                # Create the bar chart with Plotly Express
+                fig = px.bar(top_sales, x='product', y='quantity_ordered', color='quantity_ordered',
+                             color_continuous_scale=px.colors.sequential.Blues,  # Use the Blues color spectrum
+                             title="Top Sellers")  # You can specify a title if desired
+
+                # Apply standardized styling
+                fig = apply_plotly_style(fig)
+
                 return fig
 
         with ui.nav_panel("Top Sellers Value ($)"):
@@ -126,8 +171,13 @@ with ui.layout_column_wrap(width=1/2):
             def plot_top_sellers_value():
                 df = dat()
                 top_sales = df.groupby('product')['value'].sum().nlargest(input.n()).reset_index()
-                fig = px.bar(top_sales, x='product', y='value')
-                #fig.update_traces(marker_color=color())
+                # Create the bar chart with Plotly Express
+                fig = px.bar(top_sales, x='product', y='value', color='value',
+                             color_continuous_scale=px.colors.sequential.Blues,  # Use the Blues color spectrum
+                             title="Top Sellers")  # You can specify a title if desired
+
+                # Apply standardized styling
+                fig = apply_plotly_style(fig)
                 return fig
 
         with ui.nav_panel("Lowest Sellers"):
