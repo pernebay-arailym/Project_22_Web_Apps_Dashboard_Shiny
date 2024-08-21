@@ -7,6 +7,9 @@ import calendar
 
 import altair as alt
 
+import folium
+from folium.plugins import HeatMap
+
 import matplotlib.pyplot as plt
 
 import plotly.express as px
@@ -45,16 +48,16 @@ with ui.card():
         selected='Boston (MA)'  
         )    
             
-    @render_plotly 
+    @render_altair 
     def sales_over_time():
         df = dat()
         print(list(df.city.unique()))
         sales = df.groupby(['city', 'month'])['quantity_ordered'].sum().reset_index()
         sales_by_city = sales[sales['city'] == input.city()]  # filter to city
-    
+
         # Define month names for ordering
         month_orders = calendar.month_name[1:]
-    
+
         # Create the Altair chart
         chart = alt.Chart(sales_by_city).mark_bar().encode(
             x=alt.X('month:O', title='Month', sort=month_orders),
@@ -63,7 +66,7 @@ with ui.card():
         ).properties(
             title=f"Sales over Time -- {input.city()}"
         )
-    
+
         return chart
 
 with ui.layout_column_wrap(width=1/2):
@@ -128,7 +131,12 @@ with ui.layout_column_wrap(width=1/2):
 
 with ui.card():
     ui.card_header("Sales by Location Map")
-    "Contecnt Here"
+    @render_widget
+    def plot_us_heatmap():
+        df = dat()
+
+        heatmap_data = df[['lat', 'long', 'quantity_ordered']].values
+        print(heatmap_data)
 
 with ui.card():
     ui.card_header("Sample Sales Data")
