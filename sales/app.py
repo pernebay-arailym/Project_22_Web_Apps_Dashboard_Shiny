@@ -20,7 +20,9 @@ from shinywidgets import render_plotly, render_altair, render_widget
 ui.tags.style(
     """
         #city-label {
-            background-color: blue;}
+            background-color: blue;
+            font-size: 50px;
+        }
     """
 )
 
