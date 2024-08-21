@@ -44,11 +44,18 @@ def dat():
     df['value'] = df['quantity_ordered']*df['price_each']
     return df #it returns the cashed value
 
-@render.image  
-def image():
-    here = Path(__file__).parent
-    img = {"src": here / "/Users/pernebayarailym/Documents/Portfolio Projects AP/Python Projects/Project_22_Web_Apps_Dashboard_Shiny/sales/shiny-logo.png", "width": "100px"}  
-    return img
+with ui.tags.div(class_="header-container"):
+    
+    with ui.tags.div(class_="header-container"):
+        @render.image  
+        def image():
+            here = Path(__file__).parent
+            img = {"src": here / "/Users/pernebayarailym/Documents/Portfolio Projects AP/Python Projects/Project_22_Web_Apps_Dashboard_Shiny/sales/shiny-logo.png", "width": "100px"}  
+            return img
+        
+    with ui.tags.div(class_="title-container"):
+        ui.h2("Electronics Sales Performance Analysis Dashboard")
+
 
 with ui.card():  
     ui.card_header("Sales by City 2023")
