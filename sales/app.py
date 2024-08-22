@@ -160,6 +160,15 @@ with ui.layout_column_wrap(width=1/2):
                              color_continuous_scale=px.colors.sequential.Blues)  # Use the Blues color spectrum
                                # You can specify a title if desired
 
+                fig.update_layout(
+                    xaxis=dict(
+                        title_font=dict(color='darkslategray'),
+                        tickfont=dict(color='darkslategray')
+                    ),
+                    yaxis=dict(
+                        title_font=dict(color='darkslategray'),
+                        tickfont=dict(color='darkslategray')))
+
                 # Apply standardized styling
                 fig = apply_plotly_style(fig, "Quantity Ordered")
 
@@ -185,7 +194,7 @@ with ui.layout_column_wrap(width=1/2):
             def plot_lowest_sellers():
                 df = dat()
                 top_sales = df.groupby('product')['quantity_ordered'].sum().nsmallest(input.n()).reset_index()
-                fig = px.bar(top_sales, x='product', y='quantity ordered', color='quantity_ordered',
+                fig = px.bar(top_sales, x='product', y='quantity_ordered', color='quantity_ordered',
                              color_continuous_scale='Reds')  # Use the Blues color spectrum
                                # You can specify a title if desired
 
@@ -224,8 +233,8 @@ with ui.layout_column_wrap(width=1/2):
                         yticklabels=[f"{i}:00" for i in range(24)])
             
             plt.title("Number of Orders by Hour of Day")
-            plt.xlabel("Hour of Day")
-            plt.ylabel("Order Count")
+            plt.xlabel("Order Count")
+            plt.ylabel("Hour of Day")
 
 with ui.card():
     ui.card_header("Sales by Location Map")
