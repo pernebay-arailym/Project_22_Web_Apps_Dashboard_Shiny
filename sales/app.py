@@ -48,10 +48,10 @@ ui.tags.style(
 )
 
 # Define a function to apply common styling
-def apply_plotly_style(fig):
+def apply_plotly_style(fig, yaxis_title):
     fig.update_layout(
         xaxis_title='',  # Remove x-axis label
-        yaxis_title='Quantity Ordered',  # Update y-axis label
+        yaxis_title=yaxis_title,  # Update y-axis label
         plot_bgcolor='white',  # Remove background color
         paper_bgcolor='white',  # Remove paper background color
         coloraxis_showscale=False,
@@ -161,7 +161,7 @@ with ui.layout_column_wrap(width=1/2):
                              title="Top Sellers")  # You can specify a title if desired
 
                 # Apply standardized styling
-                fig = apply_plotly_style(fig)
+                fig = apply_plotly_style(fig, "Quantity Ordered")
 
                 return fig
 
@@ -177,7 +177,7 @@ with ui.layout_column_wrap(width=1/2):
                              title="Top Sellers")  # You can specify a title if desired
 
                 # Apply standardized styling
-                fig = apply_plotly_style(fig)
+                fig = apply_plotly_style(fig, "Total Sales ($)")
                 return fig
 
         with ui.nav_panel("Lowest Sellers"):
