@@ -157,8 +157,8 @@ with ui.layout_column_wrap(width=1/2):
 
                 # Create the bar chart with Plotly Express
                 fig = px.bar(top_sales, x='product', y='quantity_ordered', color='quantity_ordered',
-                             color_continuous_scale=px.colors.sequential.Blues,  # Use the Blues color spectrum
-                             title="Top Sellers")  # You can specify a title if desired
+                             color_continuous_scale=px.colors.sequential.Blues)  # Use the Blues color spectrum
+                               # You can specify a title if desired
 
                 # Apply standardized styling
                 fig = apply_plotly_style(fig, "Quantity Ordered")
@@ -173,8 +173,8 @@ with ui.layout_column_wrap(width=1/2):
                 top_sales = df.groupby('product')['value'].sum().nlargest(input.n()).reset_index()
                 # Create the bar chart with Plotly Express
                 fig = px.bar(top_sales, x='product', y='value', color='value',
-                             color_continuous_scale=px.colors.sequential.Blues,  # Use the Blues color spectrum
-                             title="Top Sellers")  # You can specify a title if desired
+                             color_continuous_scale=px.colors.sequential.Blues)  # Use the Blues color spectrum
+                               # You can specify a title if desired
 
                 # Apply standardized styling
                 fig = apply_plotly_style(fig, "Total Sales ($)")
@@ -185,7 +185,12 @@ with ui.layout_column_wrap(width=1/2):
             def plot_lowest_sellers():
                 df = dat()
                 top_sales = df.groupby('product')['quantity_ordered'].sum().nsmallest(input.n()).reset_index()
-                fig = px.bar(top_sales, x='product', y='quantity_ordered')
+                fig = px.bar(top_sales, x='product', y='quantity ordered', color='quantity_ordered',
+                             color_continuous_scale='Reds')  # Use the Blues color spectrum
+                               # You can specify a title if desired
+
+                # Apply standardized styling
+                fig = apply_plotly_style(fig, "Quantity Ordered")
                 #fig.update_traces(marker_color=color())
                 return fig
 
@@ -194,7 +199,11 @@ with ui.layout_column_wrap(width=1/2):
             def plot_lowest_sellers_value():
                 df = dat()
                 top_sales = df.groupby('product')['value'].sum().nsmallest(input.n()).reset_index()
-                fig = px.bar(top_sales, x='product', y='value')
+                fig = px.bar(top_sales, x='product', y='value', color='value',
+                             color_continuous_scale='Reds')  # Use the Blues color spectrum )  # You can specify a title if desired
+
+                # Apply standardized styling
+                fig = apply_plotly_style(fig, "Total Sales ($)")
                 #fig.update_traces(marker_color=color())
                 return fig
 
